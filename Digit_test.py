@@ -19,7 +19,6 @@ std= torch.std(img_tensor)
 normalize= torchvision.transforms.Normalize((mean),(std))
 img_tensor= normalize(img_tensor)
 
-print(img_tensor)
 
 class Net(nn.Module):
     def __init__(self):
@@ -40,16 +39,5 @@ class Net(nn.Module):
 network= Net()
 network.load_state_dict(torch.load('./results/model.pth', weights_only=True))
 
-test_loader = torch.utils.data.DataLoader(
-  torchvision.datasets.MNIST('/files/', train=False, download=True,
-                             transform=torchvision.transforms.Compose([
-                               torchvision.transforms.ToTensor(),
-                               torchvision.transforms.Normalize(
-                                 (0.1307,), (0.3081,))
-                             ])),
-  batch_size=batch_size_test, shuffle=True)
-
-
-batch_idx, (example_data, example_targets) = next( enumerate(test_loader))
 output = network(img_tensor)
 print(output[0],format(torch.argmax(output[0])))
