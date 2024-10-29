@@ -6,7 +6,7 @@ batch_size_test = 1000
 from PIL import Image
 
 # Read a PIL image + image->tensor(normalized)
-image = Image.open('./image/8.png').convert('RGB')
+image = Image.open('./image/2.png').convert('RGB')
 transform = torchvision.transforms.Compose([
     torchvision.transforms.ToTensor(),
     torchvision.transforms.Grayscale(),
