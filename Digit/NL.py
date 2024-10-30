@@ -2,7 +2,7 @@
 import torch
 import torchvision
 import matplotlib.pyplot as plt
-
+import os
 # Prepare dataset
 n_epochs = 3
 batch_size_train = 64
@@ -14,7 +14,7 @@ log_interval = 10
 random_seed = 1
 torch.backends.cudnn.enabled = False
 torch.manual_seed(random_seed)
-
+dirname = os.path.dirname(__file__)
 #import dataset
 train_loader = torch.utils.data.DataLoader(
   torchvision.datasets.MNIST('/files/', train=True, download=True,
@@ -29,14 +29,13 @@ test_loader = torch.utils.data.DataLoader(
   torchvision.datasets.MNIST('/files/', train=False, download=True,
                              transform=torchvision.transforms.Compose([
                                torchvision.transforms.ToTensor(),
-                               torchvision.transforms.Normalize(
-                                 (0.1307,), (0.3081,))
+                               torchvision.transforms.Normalize( (0.1307,), (0.3081,))
                              ])),
   batch_size=batch_size_test, shuffle=True)
 
 examples = enumerate(test_loader)
 batch_idx, (example_data, example_targets) = next(examples)
-print(example_data.shape)
+print(example_data[0])
 
 #visulize dataset
 
@@ -81,6 +80,8 @@ test_losses = []
 test_counter = [i*len(train_loader.dataset) for i in range(n_epochs + 1)]
 
 def train(epoch):
+  filename_model = os.path.join(dirname, 'results/model.pth')
+  filename_optimizer = os.path.join(dirname, 'results/optimizer.pth')
   network.train()
   for batch_idx, (data, target) in enumerate(train_loader):
     optimizer.zero_grad()
@@ -95,8 +96,8 @@ def train(epoch):
       train_losses.append(loss.item())
       train_counter.append(
         (batch_idx*64) + ((epoch-1)*len(train_loader.dataset)))
-      torch.save(network.state_dict(), './results/model.pth')
-      torch.save(optimizer.state_dict(), './results/optimizer.pth')
+      torch.save(network.state_dict(), filename_model)
+      torch.save(optimizer.state_dict(), filename_optimizer)
 
 def test():
   network.eval()
