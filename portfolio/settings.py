@@ -29,7 +29,11 @@ ALLOWED_HOSTS = []
 
 #Allowed Website
 
-CORS_ORIGIN_ALLOW_ALL = True
+#CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGINS = [
+    "https://victor1338.github.io/",
+]
 
 # Application definition
 
