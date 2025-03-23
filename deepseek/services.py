@@ -1,5 +1,6 @@
 import requests
-from .api_config import DEEPSEEK_API_KEY, DEEPSEEK_API_BASE_URL from openai import OpenAI
+from .api_config import DEEPSEEK_API_KEY, DEEPSEEK_API_BASE_URL 
+from openai import OpenAI
 class DeepSeekService:
     def __init__(self):
         self.api_key = DEEPSEEK_API_KEY
@@ -11,9 +12,9 @@ class DeepSeekService:
 
     def generate_chat_response(self, prompt, model="deepseek-chat"):  # adjust model name as needed
         try:
-                client = OpenAI(
-                api_key=self.api_key,
-                base_url=self.base_url
+            client = OpenAI(
+            api_key=self.api_key,
+            base_url=self.base_url
             )
 
             response = client.chat.completions.create(
